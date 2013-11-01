@@ -13,7 +13,7 @@ $el = "(require 'package)
   (package-refresh-contents) (package-install 'scala-mode2))
 "
 
-$en = "(add-to-list 'load-path \"/home/ubuntu/ensime-2.10.0-0.9.8.8/src/main/elisp/\")
+$en = "(add-to-list 'load-path \"/home/ubuntu/ensime_2.10.0-0.9.8.9/elisp/\")
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 "
@@ -22,16 +22,21 @@ file {'/home/ubuntu/.emacs':
   content => "$el$en"
 }
 
-exec {"curl -L -o /home/ubuntu/v2.10.0-0.9.8.8.tar.gz -s https://github.com/aemoncannon/ensime/archive/v2.10.0-0.9.8.8.tar.gz":
+exec {"curl -o /home/ubuntu/ensime.tar.gz -L https://www.dropbox.com/sh/ryd981hq08swyqr/ZiCwjjr_vm/ENSIME%20Releases/ensime_2.10.0-0.9.8.9.tar.gz":
   path => [
     '/usr/bin'
   ],
-  creates => "/home/ubuntu/v2.10.0-0.9.8.8.tar.gz"
+  creates => "/home/ubuntu/ensime.tar.gz"
 }
 ->
-exec {"tar xvfz /home/ubuntu/v2.10.0-0.9.8.8.tar.gz":
+exec {"tar xvfz /home/ubuntu/ensime.tar.gz":
   path => [
     '/bin'
   ]
 }
-
+->
+exec {"chown ubuntu:ubuntu -R /home/ubuntu/ensime*":
+  path => [
+    '/bin'
+  ]
+}
